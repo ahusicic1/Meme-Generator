@@ -57,3 +57,8 @@ main{
   border: 1px solid #D5D4D8;
   text-indent: 5px;
 }
+
+.meme--image{
+  width: 100%;
+  padding: 10px;
+}
