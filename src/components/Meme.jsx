@@ -1,22 +1,26 @@
 import React from "react"
-import data from "../memeData.js"
 import { RANDOM } from "mysql/lib/PoolSelector.js"
 
 export default function Meme(props){
-    var memes = data.data.memes
+    
     const [meme, setMeme] = React.useState({
         topText: "",
         bottomText: "",
         image: "http://i.imgflip.com/1bij.jpg" 
     })
 
-    const [allMemeImages, setAllMemeImages] = React.useState(data)
+    const [allMemes, setAllMemes] = React.useState([])
+
+    React.useEffect( () => {
+        fetch("https://api.imgflip.com/get_memes")
+            .then(res => res.json())
+            .then(data => setAllMemes(data.data.memes))
+    }, [])
 
 function writeURL(){
-    var memesArray = allMemeImages.data.memes
-    var randomImageUrl = memesArray[
+    var randomImageUrl = allMemes[
                     Math.floor(
-                            Math.random()*memesArray.length
+                            Math.random()*allMemes.length
                             )]
                             .url
 
@@ -26,7 +30,7 @@ function writeURL(){
             image: randomImageUrl
         }
     })
-   }
+}
 
    function handleChange(event){
     const {name, value} = event.target 
@@ -38,7 +42,7 @@ function writeURL(){
             [name]: value
         }
     })
-}
+    }
   
     return (
         <main>
